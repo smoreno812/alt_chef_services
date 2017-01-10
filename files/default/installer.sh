@@ -91,7 +91,7 @@ echo "file_cache_path \"$INSTALL_DIR/chef_installer/.chef/cache\"" > solo_instal
 echo -e "{\"install_dir\":\"$INSTALL_DIR\"}" > installer.json
 chef-client -z -j installer.json -c solo_installer.rb -r 'recipe[installer::installer]'
 echo -e "{\"chef_server\": {\"fqdn\":\"$CHEF_SERVER_FQDN\",\"install_dir\":\"$INSTALL_DIR\"}}" > attributes.json
-chef-client -z -j attributes.json --config-option file_cache_path=$INSTALL_DIR -r 'recipe[csg_chef_services::chef-server]'
+chef-client -z -j attributes.json --config-option file_cache_path=$INSTALL_DIR -r 'recipe[csg_manage_server]' --recipe-url http://artifactory.csgicorp.com/artifactory/csg-17.1.0-artifacts/com.csgi/ChefFramework/I/17.1.0.0.0/17.1.0.0.0-151/csg_manage_server.tar.gz
 
 # ->upload cookbooks to itself
 # ->generate keys, create data_bags
@@ -101,7 +101,7 @@ chef-client -z -j attributes.json --config-option file_cache_path=$INSTALL_DIR -
 # --> bootstrap with correct runlist
 
 if [ ! -z $CHEF_AUTOMATE_FQDN ]; then
-  knife bootstrap $CHEF_AUTOMATE_FQDN -N $CHEF_AUTOMATE_FQDN -x $CHEF_USER -P $CHEF_PW --sudo -r "recipe[csg_chef_services::delivery]" -j "{\"chef_server\":{\"fqdn\":\"$CHEF_SERVER_FQDN\"},\"chef_automate\":{\"fqdn\":\"$CHEF_AUTOMATE_FQDN\"}}" -y --node-ssl-verify-mode none
+  knife bootstrap $CHEF_AUTOMATE_FQDN -N $CHEF_AUTOMATE_FQDN -x $CHEF_USER -P $CHEF_PW --sudo -r "recipe[csg_automate_server]" --recipe-url http://artifactory.csgicorp.com/artifactory/csg-17.1.0-artifacts/com.csgi/ChefFramework/I/17.1.0.0.0/17.1.0.0.0-151/csg_manage_server.tar.gz -j "{\"chef_server\":{\"fqdn\":\"$CHEF_SERVER_FQDN\"},\"chef_automate\":{\"fqdn\":\"$CHEF_AUTOMATE_FQDN\"}}" -y --node-ssl-verify-mode none
   knife bootstrap $CHEF_BUILD_FQDN -N $CHEF_BUILD_FQDN -x $CHEF_USER -P $CHEF_PW --sudo -r "recipe[csg_chef_services::install_build_nodes]" -j "{\"chef_server\":{\"fqdn\":\"$CHEF_SERVER_FQDN\"},\"chef_automate\":{\"fqdn\":\"$CHEF_AUTOMATE_FQDN\"},\"tags\":\"delivery-build-node\"}" -y --node-ssl-verify-mode none
 fi
 
