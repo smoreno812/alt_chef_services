@@ -83,7 +83,7 @@ fi
 mkdir -p $INSTALL_DIR/chef_installer/cookbooks/installer/recipes/
 mkdir -p $INSTALL_DIR/chef_installer/.chef/cache/
 cd $INSTALL_DIR/chef_installer
-curl -o $INSTALL_DIR/chef_installer/cookbooks/installer/recipes/installer.rb https://raw.githubusercontent.com/stephenlauck/chef-services/master/files/default/installer.rb
+# curl -o $INSTALL_DIR/chef_installer/cookbooks/installer/recipes/installer.rb https://raw.githubusercontent.com/stephenlauck/chef-services/master/files/default/installer.rb
 if [ ! -d "/opt/chefdk" ]; then
   curl -LO https://omnitruck.chef.io/install.sh && sudo bash ./install.sh -P chefdk -d $INSTALL_DIR/chef_installer && rm install.sh
 fi
@@ -92,6 +92,11 @@ echo -e "{\"install_dir\":\"$INSTALL_DIR\"}" > installer.json
 chef-client -z -j installer.json -c solo_installer.rb -r 'recipe[installer::installer]'
 echo -e "{\"chef_server\": {\"fqdn\":\"$CHEF_SERVER_FQDN\",\"install_dir\":\"$INSTALL_DIR\"}}" > attributes.json
 chef-client -z -j attributes.json --config-option file_cache_path=$INSTALL_DIR -r 'recipe[csg_manage_server]' --recipe-url /vagrant/csg_manage_server.tar.gz
+####
+#Sync Cookbooks
+#
+chef exec ruby /vagrant/generate_cookbook_tarball_urls.rb > urls
+./vagrant/upload-all.sh
 
 # ->upload cookbooks to itself
 # ->generate keys, create data_bags
