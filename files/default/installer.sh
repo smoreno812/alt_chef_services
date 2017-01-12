@@ -105,4 +105,4 @@ if [ ! -z $CHEF_AUTOMATE_FQDN ]; then
   knife bootstrap $CHEF_BUILD_FQDN -N $CHEF_BUILD_FQDN -x $CHEF_USER -P $CHEF_PW --sudo -r "recipe[csg_chef_services::install_build_nodes]" -j "{\"chef_server\":{\"fqdn\":\"$CHEF_SERVER_FQDN\"},\"chef_automate\":{\"fqdn\":\"$CHEF_AUTOMATE_FQDN\"},\"tags\":\"delivery-build-node\"}" -y --node-ssl-verify-mode none
 fi
 
-chef-client -j attributes.json -r 'recipe[csg_chef_services::chef-server]'
+chef-client -j attributes.json -r 'recipe[csg_manage_server]'
