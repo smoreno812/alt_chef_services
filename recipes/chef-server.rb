@@ -92,4 +92,4 @@ end
 
 include_recipe 'csg_chef_services::delivery_license'
 include_recipe 'csg_chef_services::save_secrets'
-include_recipe 'csg_ldap::chef-server'
+include_recipe 'csg_ldap::chef_server'
