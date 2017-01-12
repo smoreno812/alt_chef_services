@@ -69,12 +69,10 @@ unless automate_db
     content <<-EOF
   source 'https://supermarket.chef.io'
 
-    cookbook 'csg_chef_server_ctl', git: 'https://github.com/smoreno812/csg_chef_server_ctl.git'
-    cookbook 'csg_chef_services', git: 'https://github.com/smoreno812/csg_chef_services.git'
-    cookbook 'csg_chef_ingredient', git: 'https://github.com/smoreno812/csg_chef_ingredient.git'
-    cookbook 'csg_manage_server', git: 'https://github.com/smoreno812/csg_manage_server.git'
-    cookbook 'csg_ldap', git: 'https://github.com/smoreno812/csg_ldap.git'
-    cookbook 'supermarket-omnibus-cookbook'
+  cookbook 'chef-server-ctl', git: 'https://github.com/stephenlauck/chef-server-ctl.git'
+  cookbook 'chef-services', git: 'https://github.com/stephenlauck/chef-services.git'
+  cookbook 'chef-ingredient', git: 'https://github.com/andy-dufour/chef-ingredient.git'
+  cookbook 'supermarket-omnibus-cookbook'
   EOF
   end
 
