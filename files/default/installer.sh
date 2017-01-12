@@ -95,8 +95,8 @@ chef-client -z -j attributes.json --config-option file_cache_path=$INSTALL_DIR -
 ####
 #Sync Cookbooks
 #
-chef exec ruby /vagrant/generate_cookbook_tarball_urls.rb > urls
-./vagrant/upload-all.sh
+chef exec ruby /vagrant/generate_cookbook_tarball_urls.rb > /vagrant/urls
+/vagrant/upload-all.sh
 
 # ->upload cookbooks to itself
 # ->generate keys, create data_bags
