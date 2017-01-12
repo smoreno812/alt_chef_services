@@ -9,7 +9,7 @@ version          '3.0.15'
 depends 'ntp'
 depends 'fancy_execute'
 depends 'csg_chef_ingredient'
-depends 'csg_services_ctl'
+depends 'csg_chef_services_ctl'
 depends 'supermarket-omnibus-cookbook'
 depends 'csg_ldap'
 
