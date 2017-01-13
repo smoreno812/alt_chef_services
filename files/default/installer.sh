@@ -2,7 +2,7 @@
 
 #
 # Please provide an IP/FQDN for your chef server: domain.com
-#
+###
 # Hab package?
 #
 
