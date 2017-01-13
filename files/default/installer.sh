@@ -91,12 +91,11 @@ echo "file_cache_path \"$INSTALL_DIR/chef_installer/.chef/cache\"" > solo_instal
 echo -e "{\"install_dir\":\"$INSTALL_DIR\"}" > installer.json
 chef-client -z -j installer.json -c solo_installer.rb -r 'recipe[installer::installer]'
 echo -e "{\"chef_server\": {\"fqdn\":\"$CHEF_SERVER_FQDN\",\"install_dir\":\"$INSTALL_DIR\"}}" > attributes.json
-chef-client -z -j attributes.json --config-option file_cache_path=$INSTALL_DIR -r 'recipe[csg_manage_server]' --recipe-url /vagrant/csg_manage_server.tar.gz
-####
-#Sync Cookbooks
-#
-chef exec ruby /vagrant/generate_cookbook_tarball_urls.rb > /vagrant/urls
-/vagrant/upload-all.sh
+chef-client -z -j attributes.json --config-option file_cache_path=$INSTALL_DIR -r 'recipe[csg_manage_server]' --recipe-url http://scm.csgicorp.com/BuildHistory/api/modules/ChefFramework/versions/latest/builds/latest/artifacts/csg_manage_server.tar.gz
+
+curl -LO http://scm.csgicorp.com/BuildHistory/api/modules/ChefFramework/versions/latest/builds/latest/artifacts/generate_cookbook_tarball_urls.rb && chef exec ruby generate_cookbook_tarball_urls.rb > urls
+
+curl -LO http://scm.csgicorp.com/BuildHistory/api/modules/ChefFramework/versions/latest/builds/latest/artifacts/upload-all.sh && sudo bash ./upload-all.sh
 
 # ->upload cookbooks to itself
 # ->generate keys, create data_bags
